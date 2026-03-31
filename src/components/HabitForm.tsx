@@ -9,7 +9,7 @@ export function HabitForm({addHabit} : HabitFormProps) {
     const [name, setName] = useState("")
 
 
-function handleSubmit(e) {
+function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
     e.preventDefault()
     
     if (name.trim() === "") return
