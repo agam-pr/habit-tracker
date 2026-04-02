@@ -1,34 +1,33 @@
-import { eachDayOfInterval, endOfWeek, format, isFuture, isSameDay, startOfWeek, subDays} from "date-fns";
+import { eachDayOfInterval, endOfWeek, format, isFuture, isSameDay, startOfWeek, subDays } from "date-fns";
+import { useHabits } from "../context/useHabits";
 import { Button } from "./Button";
-
-// type HabitListProps = {
-//     visibleDates: Date[]
-// }
 
 export type Habit = {
     id: string;
     name: string;
-    completions : Date[]
+    completions: Date[];
 }
 
 type HabitListProps = {
-    habits: Habit[]
-    deleteHabit: (id: string) => void
-    toggleHabit: (id: string, date: Date) => void
+    habits: Habit[];
+    deleteHabit: (id: string) => void;
+    toggleHabit: (id: string, date: Date) => void;
 }
 
-export function HabitList({ habits, deleteHabit, toggleHabit }: HabitListProps) {
+export function HabitList() {
+    const { habits, deleteHabit, toggleHabit }: HabitListProps = useHabits();
 
     if (habits.length === 0) {
         return (
-            <p className="text-center text-zinc-500 py-12"> No habit yet. add one above to get started!
+            <p className="text-center text-zinc-500 py-12">
+                No habit yet. Add one above to get started!
             </p>
         )
     }
 
 
     return (
-        <div className="flex flex- col gap-3">
+        <div className="flex flex-col gap-3">
             {habits.map((habit) => {
                 return <HabitItem deleteHabit={deleteHabit} toggleHabit={toggleHabit} key={habit.id} habit={habit} />
             }
@@ -58,10 +57,10 @@ function HabitItem({ habit, deleteHabit, toggleHabit }: HabitItemProps) {
             <div className="flex items-center justify-between">
                 <div className="flex gap-3 items-center">
                     <span className="font-medium">{habit.name}</span>
-                    {streak !== 0 ? ( 
+                    {streak !== 0 ? (
                         <span className="text-sm text-amber-400"> 🔥 {streak}</span>
-                    ): undefined}
-                        
+                    ) : undefined}
+
                 </div>
                 <Button
                     onClick={() => deleteHabit(habit.id)}
@@ -74,10 +73,10 @@ function HabitItem({ habit, deleteHabit, toggleHabit }: HabitItemProps) {
                     <Button
                         className="flex flex-1 flex-col items-center gap-0.5 rounded -lg text-xs" key={date.toISOString()}
                         disabled={isFuture(date)}
-                        onClick = {() => toggleHabit(habit.id, date)}
-                        variant={habit.completions.some(d => isSameDay(d, date)) ? 
+                        onClick={() => toggleHabit(habit.id, date)}
+                        variant={habit.completions.some(d => isSameDay(d, date)) ?
                             "primary" : "secondary"
-                    }
+                        }
                     >
                         <span className="font-medium">{format(date, "EEE")}</span>
                         <span> {format(date, "d")}</span>

@@ -11,7 +11,7 @@ export function HabitProvider({ children }: HabitProviderProps) {
 
   function addHabit(name: string) {
     setHabits(curr =>
-      [...curr, { id: crypto.randomUUID(), name, completions: [new Date()] }])
+      [...curr, { id: crypto.randomUUID(), name, completions: [] }])
   }
 
   function deleteHabit(id: string) {
