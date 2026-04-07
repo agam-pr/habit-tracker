@@ -1,5 +1,5 @@
 import { isSameDay } from "date-fns"
-import { useState } from "react"
+import { useLocalStorage } from "../hooks/useLocalStorage"
 import { HabitContext, type Habit } from "./useHabits"
 
 type HabitProviderProps = {
@@ -7,7 +7,7 @@ type HabitProviderProps = {
 }
 
 export function HabitProvider({ children }: HabitProviderProps) {
-  const [habits, setHabits] = useState<Habit[]>([])
+  const [habits, setHabits] = useLocalStorage<Habit[]>("Habits", [])
 
   function addHabit(name: string) {
     setHabits(curr =>
